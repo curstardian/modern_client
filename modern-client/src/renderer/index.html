@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self'" />
+<title>Modern Client</title>
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/themes.css" />
+</head>
+<body class="theme-light">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">MC</div>
+        <div class="brand-name">Modern Client</div>
+      </div>
+
+      <button class="account-switcher" id="account-switcher">
+        <div class="account-avatar" id="account-avatar">?</div>
+        <div class="account-info">
+          <div class="account-label">계정</div>
+          <div class="account-name" id="account-name">계정 없음</div>
+        </div>
+      </button>
+
+      <nav class="nav">
+        <button class="nav-item active" data-view="home">
+          <span class="nav-icon">🏠</span> Home
+        </button>
+        <button class="nav-item" data-view="instances">
+          <span class="nav-icon">🧩</span> Instances
+        </button>
+        <button class="nav-item" data-view="versions">
+          <span class="nav-icon">📦</span> Versions
+        </button>
+        <button class="nav-item" data-view="settings">
+          <span class="nav-icon">⚙️</span> Settings
+        </button>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="view" id="view-home"></section>
+      <section class="view" id="view-instances" hidden></section>
+      <section class="view" id="view-versions" hidden></section>
+      <section class="view" id="view-settings" hidden></section>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="modal-overlay" hidden>
+    <div class="modal" id="modal-root"></div>
+  </div>
+
+  <script src="js/state.js"></script>
+  <script src="js/views/home.js"></script>
+  <script src="js/views/instances.js"></script>
+  <script src="js/views/versions.js"></script>
+  <script src="js/views/settings.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
