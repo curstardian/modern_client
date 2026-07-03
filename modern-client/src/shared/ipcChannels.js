@@ -6,6 +6,7 @@ module.exports = {
   ACCOUNTS_GET_ACTIVE: 'accounts:getActive',
   ACCOUNTS_LOGIN_MICROSOFT: 'accounts:loginMicrosoft',
   ACCOUNTS_CANCEL_MS_LOGIN: 'accounts:cancelMsLogin',
+  ACCOUNTS_REFRESH_ACTIVE_SESSION: 'accounts:refreshActiveSession',
 
   INSTANCES_LIST: 'instances:list',
   INSTANCES_CREATE: 'instances:create',
@@ -30,10 +31,17 @@ module.exports = {
   SETTINGS_BROWSE_JAVA: 'settings:browseJava',
   SETTINGS_VALIDATE_JAVA: 'settings:validateJava',
 
+  MODS_SEARCH: 'mods:search',
+  MODS_LIST_INSTALLED: 'mods:listInstalled',
+  MODS_INSTALL: 'mods:install',
+  MODS_REMOVE: 'mods:remove',
+  MODS_SET_ENABLED: 'mods:setEnabled',
+
   LAUNCH_START: 'launch:start',
   LAUNCH_CANCEL: 'launch:cancel',
   LAUNCH_PROGRESS: 'launch:progress',
   LAUNCH_LOG: 'launch:log',
   LAUNCH_EXIT: 'launch:exit',
   LAUNCH_ERROR: 'launch:error',
+  LAUNCH_COMPAT_WARNING: 'launch:compatWarning',
 };

@@ -35,6 +35,14 @@ function instanceGameDir(instanceId) {
   return ensureDir(path.join(instanceDir(instanceId), 'gamedir'));
 }
 
+function instanceModsDir(instanceId) {
+  return ensureDir(path.join(instanceGameDir(instanceId), 'mods'));
+}
+
+function instanceModsFile(instanceId) {
+  return path.join(instanceDir(instanceId), 'mods.json');
+}
+
 function versionsRoot() {
   return ensureDir(path.join(userDataRoot(), 'versions'));
 }
@@ -108,6 +116,8 @@ module.exports = {
   instanceDir,
   instanceFile,
   instanceGameDir,
+  instanceModsDir,
+  instanceModsFile,
   versionsRoot,
   versionDir,
   versionJsonFile,

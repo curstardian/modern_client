@@ -13,6 +13,8 @@ const accountsSvc = require('./accounts');
 const settingsSvc = require('./settings');
 const msAuth = require('./msAuth');
 const versionsLibrary = require('./versionsLibrary');
+const essentialMods = require('./essentialMods');
+const modCompat = require('./modCompat');
 
 const activeProcesses = new Map();
 
@@ -66,15 +68,15 @@ async function buildSession(account) {
   };
 }
 
-async function startLaunch(instanceId, handlers = {}) {
+async function startLaunch(instanceId, handlers = {}, { force = false } = {}) {
   const launchId = randomUUID();
-  runLaunch(launchId, instanceId, handlers).catch((err) => {
+  runLaunch(launchId, instanceId, handlers, { force }).catch((err) => {
     emit(handlers, 'onError', { launchId, phase: 'launch', message: err.message });
   });
   return { launchId };
 }
 
-async function runLaunch(launchId, instanceId, handlers) {
+async function runLaunch(launchId, instanceId, handlers, { force = false } = {}) {
   const instance = instancesSvc.get(instanceId);
   if (!instance) throw new Error('존재하지 않는 인스턴스입니다.');
   const account = accountsSvc.getActive();
@@ -94,6 +96,19 @@ async function runLaunch(launchId, instanceId, handlers) {
 
   if (versionJsonSvc.isLegacyAssets(versionJson)) {
     throw new Error('이 버전은 구버전 에셋 형식(legacy)을 사용해 아직 지원되지 않습니다.');
+  }
+
+  const versionMeta = versionsLibrary.getMeta(instance.versionId);
+  if (versionMeta.loader !== 'vanilla') {
+    emit(handlers, 'onProgress', { launchId, phase: 'mods-essential', current: 0, total: 1 });
+    await essentialMods.ensureEssentialMods(instance, versionMeta);
+
+    emit(handlers, 'onProgress', { launchId, phase: 'mods-check', current: 0, total: 1 });
+    const compat = await modCompat.preflightCheck(instance, versionMeta);
+    if (!compat.ok && !force) {
+      emit(handlers, 'onCompatWarning', { launchId, problems: compat.problems });
+      return;
+    }
   }
 
   emit(handlers, 'onProgress', { launchId, phase: 'libraries', current: 0, total: 1 });

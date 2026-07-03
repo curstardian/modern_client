@@ -8,12 +8,13 @@ function register(getWin) {
     if (win && !win.isDestroyed()) win.webContents.send(channel, payload);
   };
 
-  ipcMain.handle(channels.LAUNCH_START, (event, { instanceId } = {}) => launcher.startLaunch(instanceId, {
+  ipcMain.handle(channels.LAUNCH_START, (event, { instanceId, force } = {}) => launcher.startLaunch(instanceId, {
     onProgress: (p) => send(channels.LAUNCH_PROGRESS, p),
     onLog: (p) => send(channels.LAUNCH_LOG, p),
     onExit: (p) => send(channels.LAUNCH_EXIT, p),
     onError: (p) => send(channels.LAUNCH_ERROR, p),
-  }));
+    onCompatWarning: (p) => send(channels.LAUNCH_COMPAT_WARNING, p),
+  }, { force }));
 
   ipcMain.handle(channels.LAUNCH_CANCEL, (event, { launchId } = {}) => launcher.cancelLaunch(launchId));
 }

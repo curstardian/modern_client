@@ -12,6 +12,7 @@ const channels = {
   ACCOUNTS_GET_ACTIVE: 'accounts:getActive',
   ACCOUNTS_LOGIN_MICROSOFT: 'accounts:loginMicrosoft',
   ACCOUNTS_CANCEL_MS_LOGIN: 'accounts:cancelMsLogin',
+  ACCOUNTS_REFRESH_ACTIVE_SESSION: 'accounts:refreshActiveSession',
 
   INSTANCES_LIST: 'instances:list',
   INSTANCES_CREATE: 'instances:create',
@@ -36,12 +37,19 @@ const channels = {
   SETTINGS_BROWSE_JAVA: 'settings:browseJava',
   SETTINGS_VALIDATE_JAVA: 'settings:validateJava',
 
+  MODS_SEARCH: 'mods:search',
+  MODS_LIST_INSTALLED: 'mods:listInstalled',
+  MODS_INSTALL: 'mods:install',
+  MODS_REMOVE: 'mods:remove',
+  MODS_SET_ENABLED: 'mods:setEnabled',
+
   LAUNCH_START: 'launch:start',
   LAUNCH_CANCEL: 'launch:cancel',
   LAUNCH_PROGRESS: 'launch:progress',
   LAUNCH_LOG: 'launch:log',
   LAUNCH_EXIT: 'launch:exit',
   LAUNCH_ERROR: 'launch:error',
+  LAUNCH_COMPAT_WARNING: 'launch:compatWarning',
 };
 
 function on(channel, callback) {
@@ -59,6 +67,7 @@ contextBridge.exposeInMainWorld('api', {
     getActive: () => ipcRenderer.invoke(channels.ACCOUNTS_GET_ACTIVE),
     loginMicrosoft: () => ipcRenderer.invoke(channels.ACCOUNTS_LOGIN_MICROSOFT),
     cancelMsLogin: () => ipcRenderer.invoke(channels.ACCOUNTS_CANCEL_MS_LOGIN),
+    refreshActiveSession: () => ipcRenderer.invoke(channels.ACCOUNTS_REFRESH_ACTIVE_SESSION),
   },
   instances: {
     list: () => ipcRenderer.invoke(channels.INSTANCES_LIST),
@@ -86,12 +95,24 @@ contextBridge.exposeInMainWorld('api', {
     browseJava: () => ipcRenderer.invoke(channels.SETTINGS_BROWSE_JAVA),
     validateJava: (path) => ipcRenderer.invoke(channels.SETTINGS_VALIDATE_JAVA, { path }),
   },
+  mods: {
+    search: (instanceId, source, query) => ipcRenderer.invoke(channels.MODS_SEARCH, { instanceId, source, query }),
+    listInstalled: (instanceId) => ipcRenderer.invoke(channels.MODS_LIST_INSTALLED, { instanceId }),
+    install: (instanceId, source, modId, versionId) => ipcRenderer.invoke(channels.MODS_INSTALL, {
+      instanceId, source, modId, versionId,
+    }),
+    remove: (instanceId, modId) => ipcRenderer.invoke(channels.MODS_REMOVE, { instanceId, modId }),
+    setEnabled: (instanceId, modId, enabled) => ipcRenderer.invoke(channels.MODS_SET_ENABLED, {
+      instanceId, modId, enabled,
+    }),
+  },
   launch: {
-    start: (instanceId) => ipcRenderer.invoke(channels.LAUNCH_START, { instanceId }),
+    start: (instanceId, force) => ipcRenderer.invoke(channels.LAUNCH_START, { instanceId, force }),
     cancel: (launchId) => ipcRenderer.invoke(channels.LAUNCH_CANCEL, { launchId }),
     onProgress: (cb) => on(channels.LAUNCH_PROGRESS, cb),
     onLog: (cb) => on(channels.LAUNCH_LOG, cb),
     onExit: (cb) => on(channels.LAUNCH_EXIT, cb),
     onError: (cb) => on(channels.LAUNCH_ERROR, cb),
+    onCompatWarning: (cb) => on(channels.LAUNCH_COMPAT_WARNING, cb),
   },
 });

@@ -15,6 +15,10 @@ function recordMetaIfMissing(versionId, meta) {
   if (!fs.existsSync(metaFile(versionId))) recordMeta(versionId, meta);
 }
 
+function getMeta(versionId) {
+  return readJson(metaFile(versionId), { loader: 'vanilla', mcVersion: versionId, installedAt: null });
+}
+
 function dirSize(dir) {
   let total = 0;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -48,4 +52,6 @@ function deleteInstalled(versionId) {
   return { ok: true };
 }
 
-module.exports = { recordMeta, recordMetaIfMissing, listInstalled, deleteInstalled };
+module.exports = {
+  recordMeta, recordMetaIfMissing, getMeta, listInstalled, deleteInstalled,
+};

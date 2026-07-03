@@ -3,6 +3,7 @@ const instancesIpc = require('./instancesIpc');
 const settingsIpc = require('./settingsIpc');
 const versionsIpc = require('./versionsIpc');
 const launchIpc = require('./launchIpc');
+const modsIpc = require('./modsIpc');
 
 function registerAll(getWin) {
   accountsIpc.register(getWin);
@@ -10,6 +11,7 @@ function registerAll(getWin) {
   versionsIpc.register(getWin);
   settingsIpc.register(getWin);
   launchIpc.register(getWin);
+  modsIpc.register();
 }
 
 module.exports = { registerAll };

@@ -9,6 +9,7 @@ window.Store = (function createStore() {
     settings: null,
     currentLaunch: null,
     logs: [],
+    sessionWarning: false,
   };
   const listeners = new Set();
 
@@ -31,14 +32,16 @@ window.Modal = (function createModal() {
   const overlay = document.getElementById('modal-overlay');
   const root = document.getElementById('modal-root');
 
-  function open(node) {
+  function open(node, { large = false } = {}) {
     root.innerHTML = '';
+    root.classList.toggle('modal-lg', large);
     root.appendChild(node);
     overlay.hidden = false;
   }
   function close() {
     overlay.hidden = true;
     root.innerHTML = '';
+    root.classList.remove('modal-lg');
   }
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) close();

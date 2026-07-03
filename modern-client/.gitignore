@@ -1,3 +1,4 @@
 node_modules/
 config/msauth.json
+config/curseforge.json
 *.log

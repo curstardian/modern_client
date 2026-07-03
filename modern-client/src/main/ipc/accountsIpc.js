@@ -16,6 +16,19 @@ function register(getWin) {
   });
 
   ipcMain.handle(channels.ACCOUNTS_CANCEL_MS_LOGIN, () => msAuth.cancelLogin());
+
+  ipcMain.handle(channels.ACCOUNTS_REFRESH_ACTIVE_SESSION, async () => {
+    const active = accounts.getActive();
+    if (!active || active.type !== 'microsoft') return { ok: true };
+    try {
+      const refreshToken = accounts.getMicrosoftRefreshToken(active.id);
+      const session = await msAuth.refreshMicrosoftSession(refreshToken);
+      accounts.updateMicrosoftToken(active.id, session.refreshToken);
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, error: err.message };
+    }
+  });
 }
 
 module.exports = { register };

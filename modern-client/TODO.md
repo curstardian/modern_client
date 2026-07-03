@@ -64,6 +64,9 @@ modrinth,curseforge api로 모드 원클릭 설치, 쉽게 관리,
 호환성 경고, 마인크래프트 실행할때 호환성 문제 있으면 모드 구동기가 먼저 경고하기 전에 깔끔한 ui로 아주 해결법 잘보이게 경고.
 7. 모던 런처의 모드를 자동 실행되게 만들기
 
+-Xmx2G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M
+
+
 좌측:
 - Home
 - Instances
