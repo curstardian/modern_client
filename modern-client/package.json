@@ -1,0 +1,17 @@
+{
+  "name": "modern-client",
+  "version": "2.0.8",
+  "description": "",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test src/test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^43.0.0"
+  }
+}

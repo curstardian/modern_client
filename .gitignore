@@ -1,0 +1,8 @@
+node_modules/
+modern-client/node_modules/
+modern-client/config/msauth.json
+modern-client/config/curseforge.json
+*.log
+modern-client/TODO.md
+modern-client/mod/README.md
+.claude/
